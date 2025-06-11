@@ -39,6 +39,9 @@ const TypingTitle = () => {
     <h1 className="typing-title">
       {text}
       <span className="cursor">|</span>
+      <p className="typing-subtitle">
+        Streamlining productivity with all-in-one AI note taking, calendar and to-do list
+      </p>
     </h1>
   )
 }
