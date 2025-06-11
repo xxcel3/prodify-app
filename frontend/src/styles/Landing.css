@@ -11,7 +11,7 @@ html, body, #root {
   flex-direction: row;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to right, #a5b79d, #4b4d26);
+  background: linear-gradient(to right, #a5b79d, #333446);
   overflow: hidden;
 }
 

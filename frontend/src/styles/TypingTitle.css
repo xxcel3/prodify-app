@@ -1,9 +1,3 @@
-.typing-title-container {
-  text-align: center;
-  color: #613a2b;
-  padding: 1rem;
-}
-
 /* Title: responsive font using clamp + vw */
 .typing-title {
   font-family: 'DM Serif Display', serif;
@@ -11,6 +5,7 @@
   font-weight: bold;
   margin-bottom: 1rem;
   color: #613a2b;
+  padding-left: 2rem;
 }
 
 /* Blinking cursor */
