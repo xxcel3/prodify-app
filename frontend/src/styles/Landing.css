@@ -1,0 +1,64 @@
+/* Make sure the entire page takes up full height */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Main layout container: split into two columns */
+.landing-container {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  width: 100vw;
+  background: linear-gradient(to right, #a5b79d, #4b4d26); /* Soft green gradient */
+  overflow: hidden;
+}
+
+/* LEFT COLUMN — holds buttons + desk */
+.desk-column {
+  flex: 1; /* Takes up 50% of width */
+  display: flex;
+  flex-direction: column; /* Stack buttons and desk vertically */
+  align-items: center;
+  justify-content: space-between; /* Space out buttons and desk */
+  padding: 1rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* RIGHT COLUMN - Title */
+.right-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* BUTTONS — centered in top part of left column */
+.buttons-box {
+  display: flex;
+  flex-direction: row;  /* Side-by-side by default */
+  flex-wrap: wrap;      /* Wrap if space is tight */
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* SMALL SCREENS — stack buttons vertically */
+@media (max-width: 640px) {
+  .buttons-box {
+    flex-direction: column;
+  }
+}
+
+/* DESK WRAPPER — fills remaining space and anchors image to bottom */
+.desk-wrapper {
+  width: 100%;
+  flex-grow: 1; /* Fills remaining vertical space */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align desk image to bottom */
+}
