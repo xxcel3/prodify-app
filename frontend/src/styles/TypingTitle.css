@@ -1,0 +1,20 @@
+.typing-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 6vw, 10rem); /* scales with screen size */
+  font-weight: bold;
+  color: #613a2b;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.cursor {
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
