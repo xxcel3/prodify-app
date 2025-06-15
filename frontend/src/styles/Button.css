@@ -1,0 +1,10 @@
+.button {
+  width: clamp(100px, 30vw, 300px);
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1); /* optional: adds a subtle glow */
+}
