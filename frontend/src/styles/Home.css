@@ -66,3 +66,8 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
   background-color: #0056b3;
 }
+/* Logout */
+.home-container {
+  position: relative; /* Needed for the absolute button */
+  padding: 2rem;
+}

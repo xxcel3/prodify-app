@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import Note from "../components/Note"
 import "../styles/Home.css"
+import "../styles/Logout.css"; 
 
 function Home() {
     const [notes, setNotes] = useState([]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         getNotes();
@@ -46,14 +49,21 @@ function Home() {
             .catch((err) => alert(err));
     };
 
+    const handleLogout = () => {
+        navigate("/logout"); // Redirect to /logout route
+    };
+
     return (
-        <div>
-            <div>
-                <h2>Notes</h2>
-                {notes.map((note) => (
-                    <Note note={note} onDelete={deleteNote} key={note.id} />
-                ))}
-            </div>
+        <div className="home-container">
+            <button className="logout-button" onClick={handleLogout}>
+                Logout
+            </button>
+
+            <h2>Notes</h2>
+            {notes.map((note) => (
+                <Note note={note} onDelete={deleteNote} key={note.id} />
+            ))}
+
             <h2>Create a Note</h2>
             <form onSubmit={createNote}>
                 <label htmlFor="title">Title:</label>
