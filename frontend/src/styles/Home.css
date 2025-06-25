@@ -79,6 +79,9 @@ form input[type="submit"]:hover {
 .main-content {
   padding: 2rem;
 }
+.main-content h2 {
+  text-align: center;
+}
 
 /* Leave space for the sidebar on wider screens */
 @media (min-width: 769px) {

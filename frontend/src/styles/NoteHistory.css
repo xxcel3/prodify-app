@@ -1,0 +1,66 @@
+/* Full layout: sidebar + main content */
+.note-history-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar - keep fixed width, no margin */
+.sidebar {
+  width: 200px; 
+  background-color: #f8f9fa;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+/* Main container  */
+.note-history-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* center horizontally */
+  justify-content: flex-start; 
+  padding: 2rem;
+  background: linear-gradient(to right, #e0f0e3, #333446);
+}
+
+/* Typography */
+.note-history-main h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* List of notes */
+.note-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 75%; 
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center; 
+}
+
+
+/* Each note card */
+.note-item {
+  width: 100%;
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 75%;
+}
+
+@media (max-width: 768px) {
+  .note-list {
+    grid-template-columns: 1fr;
+  }
+
+  .note-history-main {
+    padding: 1rem;
+  }
