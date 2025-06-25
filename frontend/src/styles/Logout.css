@@ -7,7 +7,7 @@
   font-weight: bold;
   border: 2px solid #cbb397;
   border-radius: 12px;
-  background-color: #4b4d26; /* Base color */
+  background-color: #80916d; /* Base color */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
@@ -15,7 +15,7 @@
 }
 
 .logout-button:hover {
-  background-color: #80916d; /* Lighter green on hover */
+  background-color: #b8d8be; /* Lighter green on hover */
   color: white;
   transform: scale(1.05);
 }
