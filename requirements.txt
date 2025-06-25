@@ -1,11 +1,17 @@
-asgiref
 Django
 django
-django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
-PyJWT
-pytz
-sqlparse
+django-cors-headers
 psycopg2-binary
 python-dotenv
+pytz
+sqlparse
+asgiref
+
+# Optional for testing/dev
+coverage
+pytest
+pytest-django
+black
+flake8
