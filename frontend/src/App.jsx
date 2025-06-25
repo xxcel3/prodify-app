@@ -7,6 +7,7 @@ import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Navbar from './components/Navbar';
+import NoteHistory from "./pages/NoteHistory"
 
 function Logout() {
   localStorage.clear()
@@ -35,6 +36,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
+        <Route path="/note-history" element={<NoteHistory />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
