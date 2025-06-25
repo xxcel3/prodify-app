@@ -1,66 +1,48 @@
-/* Full layout: sidebar + main content */
-.note-history-wrapper {
-  display: flex;
+/* Global font styling */
+div {
+  font-family: Arial, sans-serif;
+}
+
+/* Full page container */
+.home-container {
   min-height: 100vh;
-}
-
-/* Sidebar - keep fixed width, no margin */
-.sidebar {
-  width: 200px; 
-  background-color: #f8f9fa;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-/* Main container  */
-.note-history-main {
-  flex: 1;
+  width: 100%;
+  background: linear-gradient(to right, #e0f0e3, #333446);
   display: flex;
   flex-direction: column;
-  align-items: center;      /* center horizontally */
-  justify-content: flex-start; 
-  padding: 2rem;
-  background: linear-gradient(to right, #e0f0e3, #333446);
 }
 
-/* Typography */
-.note-history-main h2 {
+/* Main section */
+.main-content {
+  padding: 2rem;
+}
+
+.main-content h2 {
+  text-align: center;
   color: #333;
   font-size: 24px;
-  margin-bottom: 20px;
 }
 
-/* List of notes */
+/* Notes list */
 .note-list {
   list-style: none;
   padding: 0;
-  margin: 0;
-  width: 100%;
-  max-width: 75%; 
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center; 
+  margin: 0 auto;
+  max-width: 600px;
 }
 
-
-/* Each note card */
+/* Individual note */
 .note-item {
-  width: 100%;
-  background: #f4f4f4;
-  padding: 1rem;
-  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 75%;
 }
 
-@media (max-width: 768px) {
-  .note-list {
-    grid-template-columns: 1fr;
+/* Sidebar margin on larger screens */
+@media (min-width: 769px) {
+  .main-content {
+    margin-left: 200px;
   }
-
-  .note-history-main {
-    padding: 1rem;
-  }
+}

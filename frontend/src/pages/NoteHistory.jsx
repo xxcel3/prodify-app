@@ -8,19 +8,11 @@ function NoteHistory() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    getNotes();
-  }, []);
-
-  const getNotes = () => {
     api
       .get("/api/notes/")
-      .then((res) => res.data)
-      .then((data) => {
-        setNotes(data);
-        console.log(data);
-      })
+      .then((res) => setNotes(res.data))
       .catch((err) => alert(err));
-  };
+  }, []);
 
   const deleteNote = (id) => {
     api
@@ -28,34 +20,27 @@ function NoteHistory() {
       .then((res) => {
         if (res.status === 204) alert("Note deleted!");
         else alert("Failed to delete note.");
-        getNotes();
+        return api.get("/api/notes/");
       })
-      .catch((error) => alert(error));
+      .then((res) => setNotes(res.data))
+      .catch((err) => alert(err));
   };
 
   return (
-    <div className="note-history-wrapper">
-        <div className="sidebar">
-        <Navbar />
-        </div>
-
-        <div className="note-history-main">
+    <div className="home-container">
+      <Navbar />
+      <main className="main-content">
         <h2>Note History</h2>
-        {notes.length === 0 ? (
-            <p>No notes found.</p>
-        ) : (
-            <ul className="note-list">
-            {notes.map((note) => (
-                <li key={note.id} className="note-item">
-                <Note note={note} onDelete={deleteNote} key={note.id} />
-                </li>
-            ))}
-            </ul>
-        )}
-        </div>
+        <ul className="note-list">
+          {notes.map((note) => (
+            <li key={note.id} className="note-item">
+              <Note note={note} onDelete={deleteNote} key={note.id} />
+            </li>
+          ))}
+        </ul>
+      </main>
     </div>
-    );
-
+  );
 }
 
 export default NoteHistory;
