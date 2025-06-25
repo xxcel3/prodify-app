@@ -47,7 +47,7 @@ function NoteHistory() {
             <ul className="note-list">
             {notes.map((note) => (
                 <li key={note.id} className="note-item">
-                <Note note={note} />
+                <Note note={note} onDelete={deleteNote} key={note.id} />
                 </li>
             ))}
             </ul>
