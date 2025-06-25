@@ -59,11 +59,6 @@ function Home() {
                 <button className="logout-button" onClick={handleLogout}>
                     Logout
                 </button>
-
-                <h2>Notes</h2>
-                {notes.map((note) => (
-                    <Note note={note} onDelete={deleteNote} key={note.id} />
-                ))}
                 
                 <h2>Create a Note</h2>
                 <form onSubmit={createNote}>
