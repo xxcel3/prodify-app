@@ -6,6 +6,7 @@ import "../styles/NoteHistory.css";
 
 function NoteHistory() {
   const [notes, setNotes] = useState([]);
+  const [summaries, setSummaries] = useState({});
 
   useEffect(() => {
     api
@@ -26,6 +27,21 @@ function NoteHistory() {
       .catch((err) => alert(err));
   };
 
+  const summarizeNote = async (note) => {
+  try {
+    const response = await api.post("/api/summarize/", {
+      content: note.content,
+    });
+    setSummaries((prev) => ({
+      ...prev,
+      [note.id]: response.data.summary,
+    }));
+  } catch (err) {
+    alert("Failed to summarize note.");
+  }
+};
+
+
   return (
     <div className="home-container">
       <Navbar />
@@ -34,7 +50,13 @@ function NoteHistory() {
         <ul className="note-list">
           {notes.map((note) => (
             <li key={note.id} className="note-item">
-              <Note note={note} onDelete={deleteNote} key={note.id} />
+              <Note note={note} onDelete={deleteNote} />
+              <button onClick={() => summarizeNote(note)}>Summarize</button>
+              {summaries[note.id] && (
+                <div className="summary">
+                  <strong>Summary:</strong> {summaries[note.id]}
+                </div>
+              )}
             </li>
           ))}
         </ul>
