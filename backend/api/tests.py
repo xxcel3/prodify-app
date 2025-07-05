@@ -27,3 +27,16 @@ class NoteTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Note.objects.count(), 0)
 
+    def test_summarize_note(self):
+        url = reverse("summarize-note")
+        note_content = (
+            "Django is a high-level Python web framework that enables rapid development "
+            "of secure and maintainable websites."
+        )
+
+        response = self.client.post(url, {"content": note_content}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_json = response.json()
+        self.assertIn("summary", response_json)
+        self.assertTrue(len(response_json["summary"]) > 0)
