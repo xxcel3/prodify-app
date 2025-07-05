@@ -51,7 +51,9 @@ function NoteHistory() {
           {notes.map((note) => (
             <li key={note.id} className="note-item">
               <Note note={note} onDelete={deleteNote} />
-              <button onClick={() => summarizeNote(note)}>Summarize</button>
+              <div className="note-actions">
+                <button className="summarize-btn" onClick={() => summarizeNote(note)}>Summarize</button>
+              </div>
               {summaries[note.id] && (
                 <div className="summary">
                   <strong>Summary:</strong> {summaries[note.id]}
