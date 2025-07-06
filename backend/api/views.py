@@ -6,7 +6,8 @@ from .models import Note, Todo
 from .serializers import UserSerializer, NoteSerializer, TodoSerializer
 from rest_framework import generics, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 from groq import Groq
 
 
@@ -80,3 +81,11 @@ def summarize_note(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    return Response({
+        "username": request.user.username,
+        "email": request.user.email
+    })
