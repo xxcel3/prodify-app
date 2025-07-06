@@ -16,7 +16,7 @@ function Form({ route, method }) {
 
   const name = method === "login" ? "Login" : "Register";
 
-  // Check if username is available (only on Register)
+  // Check username availability (Register only)
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (method === "register" && username.length > 2) {
@@ -39,13 +39,17 @@ function Form({ route, method }) {
       const number = /\d/.test(password);
       const symbol = /[\W_]/.test(password);
 
-      if (!password) setPasswordFeedback("");
-      else if (lengthOK && upper && lower && number && symbol)
+      if (!password) {
+        setPasswordFeedback("");
+      } else if (lengthOK && upper && lower && number && symbol) {
         setPasswordFeedback("Strong");
-      else
+      } else {
         setPasswordFeedback("Weak: Use 8+ chars, upper/lowercase, number, and symbol");
+      }
+    } else {
+      setPasswordFeedback(""); // Clear feedback in login mode
     }
-  }, [password]);
+  }, [password, method]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,13 +84,15 @@ function Form({ route, method }) {
       <h1>{name}</h1>
 
       <input
-        className={`form-input ${usernameAvailable === false ? "input-error" : ""}`}
+        className={`form-input ${
+          method === "register" && username && usernameAvailable === false ? "input-error" : ""
+        }`}
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
       />
-      {username && (
+      {method === "register" && username && (
         <small className="feedback">
           {usernameAvailable === false
             ? "Username is taken"
@@ -98,22 +104,20 @@ function Form({ route, method }) {
 
       <input
         className={`form-input ${
-            method === "register"
+          method === "register"
             ? passwordFeedback === "Strong"
-                ? "input-success"
-                : password && "input-warning"
+              ? "input-success"
+              : password && "input-warning"
             : ""
         }`}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
-        />
-
-        {method === "register" && password && (
+      />
+      {method === "register" && password && (
         <small className="feedback">{passwordFeedback}</small>
-       )}
-
+      )}
 
       {loading && <LoadingIndicator />}
 

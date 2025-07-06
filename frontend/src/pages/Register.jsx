@@ -1,7 +1,12 @@
-import Form from "../components/Form"
+import Form from "../components/Form";
+import "../styles/Form.css"; 
 
 function Register() {
-    return <Form route="/api/user/register/" method="register" />
+  return (
+    <div className="form-page-wrapper">
+      <Form route="/api/user/register/" method="register" />
+    </div>
+  );
 }
 
-export default Register
+export default Register;
