@@ -98,16 +98,22 @@ function Form({ route, method }) {
 
       <input
         className={`form-input ${
-          passwordFeedback === "Strong"
-            ? "input-success"
-            : password && "input-warning"
+            method === "register"
+            ? passwordFeedback === "Strong"
+                ? "input-success"
+                : password && "input-warning"
+            : ""
         }`}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
-      />
-      {password && <small className="feedback">{passwordFeedback}</small>}
+        />
+
+        {method === "register" && password && (
+        <small className="feedback">{passwordFeedback}</small>
+       )}
+
 
       {loading && <LoadingIndicator />}
 
