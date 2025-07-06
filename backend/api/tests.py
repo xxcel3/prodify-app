@@ -95,3 +95,16 @@ class TodoTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
+        
+class UserTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="eve", password="password")
+        self.client.force_authenticate(user=self.user)
+
+    def test_get_username(self):
+        url = reverse("get-user-info")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("username", response.data)
+        self.assertEqual(response.data["username"], "eve")
