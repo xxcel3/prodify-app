@@ -1,72 +1,9 @@
-/* Container for the whole page */
+/* Global font */
 div {
   font-family: Arial, sans-serif;
 }
 
-/* Styles for the notes section */
-.notes-section {
-  margin-bottom: 2rem;
-}
-
-.notes-section h2 {
-  color: #333;
-  font-size: 24px;
-}
-
-/* Styles for individual notes - assuming your Note component has some container element */
-.note {
-  background-color: #f9f9f9;
-  border-left: 5px solid #007bff;
-  margin: 10px 0;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-/* Styles for the form section */
-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: auto;
-}
-
-form h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-form label {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-form input,
-form textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 8px 0 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-form input[type="submit"] {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-form input[type="submit"]:hover {
-  background-color: #0056b3;
-}
-/* Logout */
+/* Background layout */
 .home-container {
   min-height: 100vh;
   width: 100%;
@@ -75,17 +12,60 @@ form input[type="submit"]:hover {
   flex-direction: column;
 }
 
-/* Keep main content readable and spaced */
+/* Padding for main content */
 .main-content {
   padding: 2rem;
 }
-.main-content h2 {
+
+/* Intro box */
+.app-description-box {
+  background: white;
+  padding: 30px;
+  max-width: 600px;
+  margin: 3rem auto;
+  border-radius: 10px;
   text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Leave space for the sidebar on wider screens */
+.app-description-box h2 {
+  font-size: 28px;
+  margin-bottom: 1rem;
+}
+
+.app-description-box p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 1rem auto 0;
+  padding: 0 10px;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive spacing for large screens */
 @media (min-width: 769px) {
   .main-content {
-    margin-left: 200px; /* match navbar width */
+    margin-left: 200px;
   }
 }

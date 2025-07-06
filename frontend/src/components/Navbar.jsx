@@ -22,7 +22,7 @@ function Navbar() {
             {/* Sidebar or dropdown */}
             <nav className={`navbar ${menuOpen ? 'open' : ''}`}>
                 <button onClick={() => handleNav("/")}>Home</button>
-                <button onClick={() => handleNav("/note-history")}>Note History</button>
+                <button onClick={() => handleNav("/note-history")}>Note Taking</button>
                 <button onClick={() => handleNav("/todo")}>To-Do List</button>
                 <button onClick={() => handleNav("/calendar")}>Calendar</button>
                 <button onClick={() => handleNav("/settings")}>Settings</button>

@@ -1,30 +1,18 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
+import Navbar from "../components/Navbar";
 import "../styles/Home.css";
-import "../styles/Logout.css";
-import Navbar from '../components/Navbar';
+import { useEffect, useState } from "react";
+import api from "../api";
 
 function Home() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  const createNote = (e) => {
-    e.preventDefault();
-    api
-      .post("/api/notes/", { content, title })
-      .then((res) => {
-        if (res.status === 201) {
-          alert("Note created!");
-          setTitle("");
-          setContent("");
-        } else {
-          alert("Failed to create note.");
-        }
-      })
-      .catch((err) => alert(err));
-  };
+  useEffect(() => {
+    api.get("/api/user/") 
+      .then((res) => setUsername(res.data.username || "User"))
+      .catch(() => setUsername("User"));
+  }, []);
 
   const handleLogout = () => {
     navigate("/logout");
@@ -34,34 +22,25 @@ function Home() {
     <div className="home-container">
       <Navbar />
       <main className="main-content">
-        <button className="logout-button" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="top-bar">
+          <h2>Welcome, {username}!</h2>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
 
-        <h2>Create a Note</h2>
-        <form onSubmit={createNote}>
-          <label htmlFor="title">Title:</label>
-          <br />
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-          />
-          <label htmlFor="content">Content:</label>
-          <br />
-          <textarea
-            id="content"
-            name="content"
-            required
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          ></textarea>
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
+        <div className="app-description-box">
+          <h3>Welcome to Prodify</h3>
+          <p>
+            Prodify is your all-in-one productivity companion that combines
+            note-taking with AI-powered summaries, task management, calendar
+            and more all-in-one cozy workspace built for focus.
+          </p>
+          <p>
+            Use the sidebar to explore features. 
+            Everything you need, right where you want it.
+          </p>
+        </div>
       </main>
     </div>
   );

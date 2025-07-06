@@ -1,9 +1,7 @@
-/* Global font styling */
 div {
   font-family: Arial, sans-serif;
 }
 
-/* Full page container */
 .home-container {
   min-height: 100vh;
   width: 100%;
@@ -12,7 +10,6 @@ div {
   flex-direction: column;
 }
 
-/* Main section */
 .main-content {
   padding: 2rem;
 }
@@ -23,6 +20,47 @@ div {
   font-size: 24px;
 }
 
+/* Note form */
+.note-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.note-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.note-form input,
+.note-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.note-form input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.note-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
 /* Notes list */
 .note-list {
   list-style: none;
@@ -31,7 +69,6 @@ div {
   max-width: 600px;
 }
 
-/* Individual note */
 .note-item {
   background-color: #f9f9f9;
   margin: 10px 0;
@@ -40,21 +77,12 @@ div {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Sidebar margin on larger screens */
-@media (min-width: 769px) {
-  .main-content {
-    margin-left: 200px;
-  }
-}
-
-/* Summarize */
 .note-actions {
   display: flex;
   gap: 10px;
   margin-top: 10px;
 }
 
-/* Green Summarize Button */
 .summarize-btn {
   background: linear-gradient(to right, #7fb685, #3a4d39);
   color: white;
@@ -71,24 +99,6 @@ div {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Red Delete Button */
-.delete-btn {
-  background: linear-gradient(to right, #e74c3c, #c0392b);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.delete-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Pages */
 .pagination-controls {
   display: flex;
   justify-content: center;
@@ -110,4 +120,10 @@ div {
 .pagination-controls button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+
+@media (min-width: 769px) {
+  .main-content {
+    margin-left: 200px;
+  }
 }
