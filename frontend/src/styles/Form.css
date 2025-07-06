@@ -61,16 +61,24 @@ body {
   border: 1px solid orange;
 }
 
-.form-back-button {
+.back-button-container {
+  text-align: center;
   margin-top: 1rem;
-  background-color: transparent;
-  border: none;
-  color: #007bff;
+}
+
+.form-back-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 10px 16px;
   font-size: 14px;
+  border-radius: 6px;
   cursor: pointer;
-  text-decoration: underline;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-back-button:hover {
-  color: #0056b3;
+  background-color: #e0f0e3;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+

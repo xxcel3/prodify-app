@@ -93,14 +93,16 @@ function Form({ route, method }) {
         {name}
       </button>
 
-      {/* Back button */}
-      <button
-        type="button"
-        className="form-back-button"
-        onClick={() => navigate("/")}
+      {/* Back to Home button */}
+      <div className="back-button-container">
+        <button
+            type="button"
+            className="form-back-button"
+            onClick={() => navigate("/")}
         >
-        ← Back to Home
-      </button>
+            ← Back to Home
+        </button>
+      </div>
     </form>
   );
 }
