@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import NoteHistory from "./pages/NoteHistory"
 import TodoPage from "./pages/TodoPage"
+import CalendarPage from "./pages/CalendarPage"
 
 function Logout() {
   localStorage.clear()
@@ -37,6 +38,7 @@ function App() {
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="/note-history" element={<NoteHistory />} />
         <Route path="/todo" element={<TodoPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

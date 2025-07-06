@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Note, Todo
+from .models import Note, Todo, CalendarEvent
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -26,3 +26,8 @@ class TodoSerializer(serializers.ModelSerializer):
         model = Todo
         fields = ['id', 'user', 'task', 'due_date', 'priority', 'completed', 'created_at']
         read_only_fields = ['user', 'created_at']
+
+class CalendarEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CalendarEvent
+        fields = "__all__"

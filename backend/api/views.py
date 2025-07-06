@@ -2,8 +2,8 @@ import os
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from .models import Note, Todo
-from .serializers import UserSerializer, NoteSerializer, TodoSerializer
+from .models import Note, Todo, CalendarEvent
+from .serializers import UserSerializer, NoteSerializer, TodoSerializer, CalendarEventSerializer
 from rest_framework import generics, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
@@ -57,6 +57,16 @@ class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Todo.objects.filter(user=self.request.user)
     
+class EventListCreateView(generics.ListCreateAPIView):
+    serializer_class = CalendarEventSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return CalendarEvent.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
 @api_view(['POST'])
 def summarize_note(request):
     note_content = request.data.get("content", "")
@@ -89,3 +99,4 @@ def get_user_info(request):
         "username": request.user.username,
         "email": request.user.email
     })
+    
