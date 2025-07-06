@@ -9,7 +9,7 @@ function Note({ note, onDelete }) {
             <p className="note-title">{note.title}</p>
             <p className="note-content">{note.content}</p>
             <p className="note-date">{formattedDate}</p>
-            <button onClick={() => deleteEvent(event.id)} className="icon-btn">
+            <button onClick={() => onDelete(note.id)} className="icon-btn">
                 <i className="fas fa-trash"></i>
             </button>
         </div>
