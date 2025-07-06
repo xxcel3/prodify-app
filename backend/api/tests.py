@@ -2,7 +2,8 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
-from .models import Note
+from .models import Note, Todo
+from datetime import date
 
 class NoteTests(APITestCase):
     def setUp(self):
@@ -40,3 +41,57 @@ class NoteTests(APITestCase):
         response_json = response.json()
         self.assertIn("summary", response_json)
         self.assertTrue(len(response_json["summary"]) > 0)
+        
+class TodoTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="todouser", password="password")
+        self.client.force_authenticate(user=self.user)
+
+    def test_create_todo(self):
+        url = reverse("todo-list-create")
+        data = {
+            "task": "Finish the test case",
+            "due_date": date.today().isoformat(),
+            "priority": "H"
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Todo.objects.count(), 1)
+        self.assertEqual(Todo.objects.first().task, "Finish the test case")
+
+    def test_toggle_todo_completion(self):
+        todo = Todo.objects.create(
+            user=self.user,
+            task="Toggle me",
+            priority="M",
+            completed=False
+        )
+        url = reverse("todo-detail", kwargs={"pk": todo.pk})
+        response = self.client.patch(url, {"completed": True}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        todo.refresh_from_db()
+        self.assertTrue(todo.completed)
+
+    def test_delete_todo(self):
+        todo = Todo.objects.create(
+            user=self.user,
+            task="Delete me",
+            priority="L"
+        )
+        url = reverse("todo-detail", kwargs={"pk": todo.pk})
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Todo.objects.count(), 0)
+
+    def test_list_todos(self):
+        Todo.objects.create(user=self.user, task="Task A", priority="M")
+        Todo.objects.create(user=self.user, task="Task B", priority="H")
+
+        url = reverse("todo-list-create")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
