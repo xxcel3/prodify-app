@@ -32,6 +32,7 @@ class CalendarEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     date = models.DateField()
-
+    time = models.TimeField(null=True, blank=True)
+    
     def __str__(self):
         return f"{self.title} on {self.date}"

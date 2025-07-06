@@ -71,6 +71,14 @@ class EventListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+class EventRetrieveDestroyView(generics.RetrieveDestroyAPIView):
+    serializer_class = CalendarEventSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return CalendarEvent.objects.filter(user=self.request.user)
+
     
 @api_view(['POST'])
 def summarize_note(request):
