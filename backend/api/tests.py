@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework import status
+from rest_framework.test import APITestCase
 from .models import Note, Todo, CalendarEvent
 from datetime import date
 
@@ -168,3 +169,34 @@ class RegisterTests(APITestCase):
         response = self.client.post(self.register_url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(User.objects.filter(username="newuser").exists())
+
+class UserTests(APITestCase):
+    def setUp(self):
+        self.username = "eve"
+        self.password = "Password123!"
+        self.user = User.objects.create_user(username=self.username, password=self.password)
+
+    def test_get_username(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("get-user-info")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["username"], self.username)
+
+    def test_login_successful(self):
+        url = reverse("get_token")  # corresponds to /api/token/
+        data = {"username": self.username, "password": self.password}
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("access", response.data)
+        self.assertIn("refresh", response.data)
+
+    def test_login_invalid_credentials(self):
+        url = reverse("get_token")
+        data = {"username": self.username, "password": "wrongpassword"}
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertIn("detail", response.data)
