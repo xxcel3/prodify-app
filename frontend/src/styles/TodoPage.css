@@ -1,0 +1,97 @@
+/* Inherits global font from your base styles */
+
+.home-container {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(to right, #e0f0e3, #333446);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  padding: 2rem;
+}
+
+.main-content h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+}
+
+.todo-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 1rem auto 2rem;
+  max-width: 600px;
+}
+
+.todo-form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.todo-form button {
+  background: linear-gradient(to right, #7fb685, #3a4d39);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.todo-item {
+  background-color: #f9f9f9;
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-item span {
+  cursor: pointer;
+  flex: 1;
+}
+
+.todo-item.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.todo-actions {
+  margin-left: 10px;
+}
+
+.delete-btn {
+  background: linear-gradient(to right, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
