@@ -79,7 +79,9 @@ function CalendarPage() {
                       {event.title}
                       {event.time ? ` @ ${event.time.slice(0, 5)}` : ""}
                     </span>
-                    <button onClick={() => deleteEvent(event.id)}>Delete</button>
+                    <button onClick={() => deleteEvent(event.id)} className="icon-btn">
+                        <i className="fas fa-trash"></i>
+                    </button>
                   </li>
                 ))}
               </ul>

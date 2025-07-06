@@ -18,16 +18,17 @@
   font-size: 0.8rem;
 }
 
-.delete-button {
-  background-color: #f44336; /* Red */
-  color: white;
+.icon-btn {
+  background: none;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  color: #c0392b;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 4px;
+  transition: transform 0.2s ease;
 }
 
-.delete-button:hover {
-  background-color: #d32f2f; /* Darker red */
+.icon-btn:hover {
+  transform: scale(1.1);
+  color: #e74c3c;
 }

@@ -120,8 +120,8 @@ function TodoPage() {
                 </div>
               </div>
               <div className="todo-actions">
-                <button className="delete-btn" onClick={() => deleteTodo(todo.id)}>
-                  Delete
+                <button onClick={() => deleteEvent(event.id)} className="icon-btn">
+                    <i className="fas fa-trash"></i>
                 </button>
               </div>
             </li>
