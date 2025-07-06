@@ -57,12 +57,17 @@ class TodoDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Todo.objects.filter(user=self.request.user)
     
+
 class EventListCreateView(generics.ListCreateAPIView):
     serializer_class = CalendarEventSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return CalendarEvent.objects.filter(user=self.request.user)
+        date = self.request.query_params.get('date')
+        queryset = CalendarEvent.objects.filter(user=self.request.user)
+        if date:
+            queryset = queryset.filter(date=date)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

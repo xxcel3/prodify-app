@@ -30,4 +30,4 @@ class TodoSerializer(serializers.ModelSerializer):
 class CalendarEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarEvent
-        fields = "__all__"
+        fields = ['id', 'title', 'date']
