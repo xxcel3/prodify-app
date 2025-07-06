@@ -1,9 +1,11 @@
 from django.urls import path
 from . import views
 from .views import summarize_note, TodoListCreate, TodoDetail, get_user_info, \
-    EventListCreateView, EventRetrieveDestroyView
+    EventListCreateView, EventRetrieveDestroyView, check_username
 
 urlpatterns = [
+    path("user/check-username/", views.check_username, name="check-username"),
+
     path("notes/", views.NoteListCreate.as_view(), name="note-list"),
     path("notes/delete/<int:pk>/", views.NoteDelete.as_view(), name="delete-note"),
     

@@ -3,8 +3,9 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .models import Note, Todo, CalendarEvent
-from .serializers import UserSerializer, NoteSerializer, TodoSerializer, CalendarEventSerializer
-from rest_framework import generics, viewsets, permissions
+from .serializers import UserSerializer, NoteSerializer, TodoSerializer, \
+    CalendarEventSerializer
+from rest_framework import generics, viewsets, permissions, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -112,4 +113,11 @@ def get_user_info(request):
         "username": request.user.username,
         "email": request.user.email
     })
-    
+
+@api_view(["POST"])
+@permission_classes([AllowAny])  
+def check_username(request):
+    username = request.data.get("username", "")
+    if User.objects.filter(username=username).exists():
+        return Response({"available": False}, status=status.HTTP_409_CONFLICT)
+    return Response({"available": True}, status=status.HTTP_200_OK)
