@@ -10,11 +10,13 @@ function Form({ route, method }) {
   const [password, setPassword] = useState("");
   const [usernameAvailable, setUsernameAvailable] = useState(null);
   const [passwordFeedback, setPasswordFeedback] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const name = method === "login" ? "Login" : "Register";
 
+  // Check if username is available (only on Register)
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (method === "register" && username.length > 2) {
@@ -28,6 +30,7 @@ function Form({ route, method }) {
     return () => clearTimeout(timeout);
   }, [username]);
 
+  // Password strength feedback (Register only)
   useEffect(() => {
     if (method === "register") {
       const lengthOK = password.length >= 8;
@@ -37,17 +40,21 @@ function Form({ route, method }) {
       const symbol = /[\W_]/.test(password);
 
       if (!password) setPasswordFeedback("");
-      else if (lengthOK && upper && lower && number && symbol) setPasswordFeedback("Strong");
-      else setPasswordFeedback("Weak: Use 8+ chars, upper/lowercase, number, and symbol");
+      else if (lengthOK && upper && lower && number && symbol)
+        setPasswordFeedback("Strong");
+      else
+        setPasswordFeedback("Weak: Use 8+ chars, upper/lowercase, number, and symbol");
     }
   }, [password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMsg("");
 
     try {
       const res = await api.post(route, { username, password });
+
       if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
@@ -56,7 +63,13 @@ function Form({ route, method }) {
         navigate("/login");
       }
     } catch (error) {
-      alert("Registration failed");
+      if (method === "login" && error.response?.status === 401) {
+        setErrorMsg("Invalid username or password.");
+      } else if (method === "register") {
+        setErrorMsg("Registration failed.");
+      } else {
+        setErrorMsg("Something went wrong.");
+      }
     } finally {
       setLoading(false);
     }
@@ -75,12 +88,20 @@ function Form({ route, method }) {
       />
       {username && (
         <small className="feedback">
-          {usernameAvailable === false ? "Username is taken" : usernameAvailable ? "Username available" : ""}
+          {usernameAvailable === false
+            ? "Username is taken"
+            : usernameAvailable
+            ? "Username available"
+            : ""}
         </small>
       )}
 
       <input
-        className={`form-input ${passwordFeedback === "Strong" ? "input-success" : password && "input-warning"}`}
+        className={`form-input ${
+          passwordFeedback === "Strong"
+            ? "input-success"
+            : password && "input-warning"
+        }`}
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -89,18 +110,24 @@ function Form({ route, method }) {
       {password && <small className="feedback">{passwordFeedback}</small>}
 
       {loading && <LoadingIndicator />}
-      <button className="form-button" type="submit" disabled={method === "register" && usernameAvailable === false}>
+
+      <button
+        className="form-button"
+        type="submit"
+        disabled={method === "register" && usernameAvailable === false}
+      >
         {name}
       </button>
 
-      {/* Back to Home button */}
+      {errorMsg && <div className="form-error">{errorMsg}</div>}
+
       <div className="back-button-container">
         <button
-            type="button"
-            className="form-back-button"
-            onClick={() => navigate("/")}
+          type="button"
+          className="form-back-button"
+          onClick={() => navigate("/")}
         >
-            ← Back to Home
+          ← Back to Home
         </button>
       </div>
     </form>
