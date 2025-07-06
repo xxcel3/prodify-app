@@ -19,9 +19,7 @@ function TodoPage() {
     api.get("/api/todos/")
       .then((res) =>
         setTodos(
-          res.data.sort(
-            (a, b) => new Date(a.due_date) - new Date(b.due_date)
-          )
+          res.data.sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
         )
       )
       .catch(() => alert("Error loading todos"));
@@ -46,19 +44,18 @@ function TodoPage() {
   };
 
   const toggleTodo = (todo) => {
-    api.patch(`/api/todos/${todo.id}/`, { completed: !todo.completed })
-      .then(fetchTodos);
+    api.patch(`/api/todos/${todo.id}/`, { completed: !todo.completed }).then(fetchTodos);
   };
 
   const deleteTodo = (id) => {
     api.delete(`/api/todos/${id}/`).then(fetchTodos);
   };
 
-  // Pagination logic
+  // Pagination
   const indexOfLast = currentPage * todosPerPage;
   const indexOfFirst = indexOfLast - todosPerPage;
   const currentTodos = todos.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(todos.length / todosPerPage);
+  const totalPages = Math.max(Math.ceil(todos.length / todosPerPage), 1);
 
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
@@ -74,45 +71,59 @@ function TodoPage() {
       <main className="main-content">
         <h2>My To-Do List</h2>
 
-        <form onSubmit={addTodo} className="todo-form">
-          <input
-            type="text"
-            placeholder="Task"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-          />
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
-          <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-            <option value="L">Low</option>
-            <option value="M">Medium</option>
-            <option value="H">High</option>
-          </select>
-          <button type="submit">Add</button>
+        <form onSubmit={addTodo} className="todo-form-stacked">
+          <label>
+            Task:
+            <input
+              type="text"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              required
+            />
+          </label>
+
+          <label>
+            Due Date:
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+          </label>
+
+          <label>
+            Priority:
+            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+              <option value="L">Low</option>
+              <option value="M">Medium</option>
+              <option value="H">High</option>
+            </select>
+          </label>
+
+          <button type="submit">Submit</button>
         </form>
 
         <ul className="todo-list">
           {currentTodos.map((todo) => (
             <li key={todo.id} className="todo-item">
-                <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleTodo(todo)}
-                    className="todo-checkbox"
-                />
-                <div className="todo-main" onClick={() => toggleTodo(todo)}>
-                    <strong>{todo.task}</strong>
-                    <div className="meta">
-                    {todo.due_date && <span>Due: {todo.due_date}</span>}
-                    <span>Priority: {todo.priority}</span>
-                    </div>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleTodo(todo)}
+                className="todo-checkbox"
+              />
+              <div className="todo-main" onClick={() => toggleTodo(todo)}>
+                <strong>{todo.task}</strong>
+                <div className="meta">
+                  {todo.due_date && <span>Due: {todo.due_date}</span>}
+                  <span>Priority: {todo.priority}</span>
                 </div>
-                <div className="todo-actions">
-                    <button className="delete-btn" onClick={() => deleteTodo(todo.id)}>Delete</button>
-                </div>
+              </div>
+              <div className="todo-actions">
+                <button className="delete-btn" onClick={() => deleteTodo(todo.id)}>
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>

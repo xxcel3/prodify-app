@@ -1,9 +1,9 @@
-/* Inherit global font styling */
+/* Global font */
 div {
   font-family: Arial, sans-serif;
 }
 
-/* Full page container */
+/* Full page layout */
 .home-container {
   min-height: 100vh;
   width: 100%;
@@ -12,7 +12,7 @@ div {
   flex-direction: column;
 }
 
-/* Main section */
+/* Main content spacing */
 .main-content {
   padding: 2rem;
 }
@@ -23,43 +23,56 @@ div {
   font-size: 24px;
 }
 
-/* Form layout */
-.todo-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+/* Stacked form styling */
+.todo-form-stacked {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
   margin: 0 auto 2rem;
-  max-width: 600px;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
 }
 
-.todo-form input[type="text"],
-.todo-form input[type="date"],
-.todo-form select {
-  padding: 8px;
+.todo-form-stacked label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+.todo-form-stacked input,
+.todo-form-stacked select {
+  height: 42px;                 
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  font-size: 14px;
-  flex: 1 1 150px;
+  font-size: 15px;
+  margin-top: 2px;
+  box-sizing: border-box;
 }
 
-.todo-form button {
-  background: linear-gradient(to right, #7fb685, #3a4d39);
+
+.todo-form-stacked button {
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
+  padding: 8px;
   font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.todo-form button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+.todo-form-stacked button:hover {
+  background-color: #0056b3;
 }
 
-/* Task list */
+/* List container */
 .todo-list {
   list-style: none;
   padding: 0;
@@ -67,7 +80,7 @@ div {
   max-width: 600px;
 }
 
-/* Individual todo item */
+/* Individual task */
 .todo-item {
   display: flex;
   align-items: flex-start;
@@ -90,20 +103,27 @@ div {
   cursor: pointer;
 }
 
-
 .todo-main strong {
   display: block;
   margin-bottom: 4px;
 }
 
 .meta {
-  font-size: 12px;
-  color: #666;
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 16px;
+  font-size: 13px;
+  color: #444;
+  margin-top: 2px;
+  flex-wrap: wrap;
 }
 
-/* Actions */
+.meta span {
+  white-space: nowrap;
+  line-height: 1;
+}
+
 .todo-actions {
   margin-left: 10px;
 }
@@ -124,7 +144,7 @@ div {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Pagination Controls */
+/* Pagination */
 .pagination-controls {
   display: flex;
   justify-content: center;
@@ -148,7 +168,7 @@ div {
   cursor: not-allowed;
 }
 
-/* Sidebar spacing for larger screens */
+/* Sidebar offset */
 @media (min-width: 769px) {
   .main-content {
     margin-left: 200px;
