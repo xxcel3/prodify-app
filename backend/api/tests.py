@@ -2,7 +2,7 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
-from .models import Note, Todo
+from .models import Note, Todo, CalendarEvent
 from datetime import date
 
 class NoteTests(APITestCase):
@@ -108,3 +108,33 @@ class UserTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("username", response.data)
         self.assertEqual(response.data["username"], "eve")
+        
+
+class CalendarTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="calendaruser", password="password")
+        self.client.force_authenticate(user=self.user)
+
+    def test_create_calendar_event(self):
+        url = reverse("calendar-events")
+        data = {
+            "title": "Team Meeting",
+            "date": date.today().isoformat(),
+            "user": self.user.id
+        }
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CalendarEvent.objects.count(), 1)
+        self.assertEqual(CalendarEvent.objects.first().title, "Team Meeting")
+
+    def test_list_calendar_events(self):
+        CalendarEvent.objects.create(user=self.user, title="Event A", date=date.today())
+        CalendarEvent.objects.create(user=self.user, title="Event B", date=date.today())
+
+        url = reverse("calendar-events")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0]["title"], "Event A")
