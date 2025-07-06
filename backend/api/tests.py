@@ -1,6 +1,8 @@
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from rest_framework import status
 from .models import Note, Todo, CalendarEvent
 from datetime import date
@@ -138,3 +140,31 @@ class CalendarTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]["title"], "Event A")
+        
+class RegisterTests(APITestCase):
+    def setUp(self):
+        self.register_url = reverse("register")  # Make sure this name matches your URLconf
+        self.existing_user = User.objects.create_user(username="existing", password="Password123!")
+
+    def test_register_with_existing_username(self):
+        data = {"username": "existing", "password": "AnotherPass123!"}
+        response = self.client.post(self.register_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("username", response.data)
+
+    def test_register_with_weak_password(self):
+        weak_password = "123"
+        with self.assertRaises(ValidationError):
+            validate_password(weak_password)
+
+    def test_register_with_strong_password(self):
+        try:
+            validate_password("Str0ng!Pass")
+        except ValidationError:
+            self.fail("Strong password should pass validation")
+
+    def test_successful_registration(self):
+        data = {"username": "newuser", "password": "ValidPass123!"}
+        response = self.client.post(self.register_url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(User.objects.filter(username="newuser").exists())
