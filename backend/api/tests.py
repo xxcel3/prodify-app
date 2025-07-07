@@ -200,3 +200,55 @@ class UserTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertIn("detail", response.data)
+
+    # Settings
+    def test_update_username_and_password(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("user-settings")
+        data = {
+            "username": "updated_eve",
+            "current_password": self.password,
+            "new_password": "NewPass456!"
+        }
+
+        response = self.client.put(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, "updated_eve")
+        self.assertTrue(self.user.check_password("NewPass456!"))
+
+    def test_update_with_wrong_current_password(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("user-settings")
+        data = {
+            "username": "should_not_update",
+            "current_password": "wrongpass",
+            "new_password": "AnotherStrong1!"
+        }
+
+        response = self.client.put(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.user.refresh_from_db()
+        self.assertNotEqual(self.user.username, "should_not_update")
+
+    def test_delete_account_with_correct_password(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("delete-account")
+        data = {"password": self.password}
+
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(User.objects.filter(username=self.username).exists())
+
+    def test_delete_account_with_incorrect_password(self):
+        self.client.force_authenticate(user=self.user)
+        url = reverse("delete-account")
+        data = {"password": "wrongpass"}
+
+        response = self.client.post(url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(User.objects.filter(username=self.username).exists())
