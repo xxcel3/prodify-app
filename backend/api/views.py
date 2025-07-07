@@ -10,6 +10,7 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from groq import Groq
 
 
@@ -87,6 +88,19 @@ class UserSettingsView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+class DeleteAccountView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        password = request.data.get("password")
+        user = request.user
+
+        if not user.check_password(password):
+            return Response({"detail": "Incorrect password."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.delete()
+        return Response({"detail": "Account deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
     
 @api_view(['POST'])
 def summarize_note(request):

@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import summarize_note, TodoListCreate, TodoDetail, \
-    EventListCreateView, EventRetrieveDestroyView, UserSettingsView, \
+    EventListCreateView, EventRetrieveDestroyView, UserSettingsView, DeleteAccountView, \
     check_username, get_user_info
 
 urlpatterns = [
@@ -21,4 +21,5 @@ urlpatterns = [
     path("calendar/events/<int:pk>/", EventRetrieveDestroyView.as_view(), name="calendar-event-detail"),
     
     path("settings/", UserSettingsView.as_view(), name="user-settings"),
+    path("delete-account/", DeleteAccountView.as_view(), name="delete-account"),
 ]

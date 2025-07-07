@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import Navbar from "../components/Navbar";
-import "../styles/NoteHistory.css"; // Reuse styling
+import "../styles/NoteHistory.css"; // reuse existing styles
 
 function SettingsPage() {
   const [username, setUsername] = useState("");
@@ -10,10 +10,14 @@ function SettingsPage() {
   const [message, setMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
 
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState("");
+
   useEffect(() => {
-    api.get("/api/user/") 
+    api
+      .get("/api/user/") // Replace with your actual endpoint
       .then((res) => setUsername(res.data.username))
-      .catch((err) => setMessage("Failed to fetch user data"));
+      .catch(() => setMessage("Failed to fetch user data"));
   }, []);
 
   const checkStrength = (password) => {
@@ -37,20 +41,46 @@ function SettingsPage() {
     e.preventDefault();
     setMessage("");
 
-    api.put("/api/settings/", {
-      username,
-      new_password: newPassword,
-      current_password: currentPassword,
-    })
-    .then(() => setMessage("Settings updated successfully."))
-    .catch((err) => {
-      if (err.response?.data) {
-        const errors = Object.values(err.response.data).flat().join(" ");
-        setMessage(errors);
-      } else {
-        setMessage("Error updating settings.");
-      }
-    });
+    api
+      .put("/api/settings/", {
+        username,
+        new_password: newPassword,
+        current_password: currentPassword,
+      })
+      .then(() => setMessage("Settings updated successfully."))
+      .catch((err) => {
+        if (err.response?.data) {
+          const errors = Object.values(err.response.data).flat().join(" ");
+          setMessage(errors);
+        } else {
+          setMessage("Error updating settings.");
+        }
+      });
+  };
+
+  const handleDeleteAccount = (e) => {
+    e.preventDefault();
+    setDeleteMessage("");
+
+    if (!deletePassword) {
+      setDeleteMessage("Please enter your password.");
+      return;
+    }
+
+    api
+      .post("/api/delete-account/", { password: deletePassword })
+      .then(() => {
+        alert("Account deleted.");
+        localStorage.removeItem("accessToken");
+        window.location.href = "/register"; // or /login
+      })
+      .catch((err) => {
+        if (err.response?.data?.detail) {
+          setDeleteMessage(err.response.data.detail);
+        } else {
+          setDeleteMessage("Error deleting account.");
+        }
+      });
   };
 
   return (
@@ -59,6 +89,7 @@ function SettingsPage() {
       <main className="main-content">
         <h2>Account Settings</h2>
 
+        {/* Update settings form */}
         <form onSubmit={handleSubmit} className="note-form">
           <label htmlFor="username">New Username:</label>
           <input
@@ -96,7 +127,30 @@ function SettingsPage() {
           )}
 
           <input type="submit" value="Save Changes" />
-          {message && <p style={{ marginTop: "1rem", color: "black" }}>{message}</p>}
+          {message && (
+            <p style={{ marginTop: "1rem", color: message.includes("success") ? "green" : "crimson" }}>
+              {message}
+            </p>
+          )}
+        </form>
+
+        {/* Delete account form */}
+        <form onSubmit={handleDeleteAccount} className="note-form" style={{ border: "2px solid crimson", marginTop: "2rem" }}>
+          <h3 style={{ color: "crimson" }}>Danger Zone</h3>
+          <label htmlFor="deletePassword">Enter password to delete account:</label>
+          <input
+            type="password"
+            id="deletePassword"
+            name="deletePassword"
+            value={deletePassword}
+            onChange={(e) => setDeletePassword(e.target.value)}
+          />
+          <input
+            type="submit"
+            value="Delete Account"
+            style={{ backgroundColor: "crimson" }}
+          />
+          {deleteMessage && <p style={{ color: "crimson" }}>{deleteMessage}</p>}
         </form>
       </main>
     </div>
