@@ -21,7 +21,11 @@ function Form({ route, method }) {
     const timeout = setTimeout(() => {
       if (method === "register" && username.length > 2) {
         api
-          .post("/api/user/check-username/", { username })
+          .post(
+            "/api/user/check-username/",
+            { username },
+            { headers: { "Content-Type": "application/json" } }
+          )
           .then(() => setUsernameAvailable(true))
           .catch(() => setUsernameAvailable(false));
       }
