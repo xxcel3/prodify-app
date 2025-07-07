@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import Note, Todo, CalendarEvent
 from .serializers import UserSerializer, NoteSerializer, TodoSerializer, \
     CalendarEventSerializer, UserSettingsSerializer
@@ -134,13 +135,13 @@ def get_user_info(request):
         "username": request.user.username,
         "email": request.user.email
     })
-
+    
+@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def check_username(request):
-    print("Request data:", request.data)  # Debug line
-
     username = request.data.get("username")
+
     if not username:
         return Response({"error": "Username is required."}, status=400)
 
