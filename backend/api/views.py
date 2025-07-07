@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .models import Note, Todo, CalendarEvent
 from .serializers import UserSerializer, NoteSerializer, TodoSerializer, \
-    CalendarEventSerializer
+    CalendarEventSerializer, UserSettingsSerializer
 from rest_framework import generics, viewsets, permissions, status
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -80,6 +81,12 @@ class EventRetrieveDestroyView(generics.RetrieveDestroyAPIView):
     def get_queryset(self):
         return CalendarEvent.objects.filter(user=self.request.user)
 
+class UserSettingsView(RetrieveUpdateAPIView):
+    serializer_class = UserSettingsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
     
 @api_view(['POST'])
 def summarize_note(request):

@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import NoteHistory from "./pages/NoteHistory"
 import TodoPage from "./pages/TodoPage"
 import CalendarPage from "./pages/CalendarPage"
+import SettingsPage from "./pages/SettingsPage";
 
 function Logout() {
   localStorage.clear()
@@ -39,6 +40,7 @@ function App() {
         <Route path="/note-history" element={<NoteHistory />} />
         <Route path="/todo" element={<TodoPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>

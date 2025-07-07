@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
-from .views import summarize_note, TodoListCreate, TodoDetail, get_user_info, \
-    EventListCreateView, EventRetrieveDestroyView, check_username
+from .views import summarize_note, TodoListCreate, TodoDetail, \
+    EventListCreateView, EventRetrieveDestroyView, UserSettingsView, \
+    check_username, get_user_info
 
 urlpatterns = [
     path("user/check-username/", views.check_username, name="check-username"),
@@ -18,4 +19,6 @@ urlpatterns = [
     
     path("calendar/events/", EventListCreateView.as_view(), name="calendar-events"),
     path("calendar/events/<int:pk>/", EventRetrieveDestroyView.as_view(), name="calendar-event-detail"),
+    
+    path("settings/", UserSettingsView.as_view(), name="user-settings"),
 ]
