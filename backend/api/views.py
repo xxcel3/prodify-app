@@ -135,10 +135,17 @@ def get_user_info(request):
         "email": request.user.email
     })
 
-@api_view(["POST"])
-@permission_classes([AllowAny])  
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def check_username(request):
-    username = request.data.get("username", "")
-    if User.objects.filter(username=username).exists():
-        return Response({"available": False}, status=status.HTTP_409_CONFLICT)
-    return Response({"available": True}, status=status.HTTP_200_OK)
+    print("Request data:", request.data)  # Debug line
+
+    username = request.data.get("username")
+    if not username:
+        return Response({"error": "Username is required."}, status=400)
+
+    exists = User.objects.filter(username=username).exists()
+    if exists:
+        return Response({"error": "Username already taken."}, status=400)
+
+    return Response({"message": "Username is available."}, status=200)
