@@ -1,20 +1,35 @@
+# --- Core Django & REST Framework ---
 Django
-django
 djangorestframework
-djangorestframework-simplejwt
+djangorestframework_simplejwt
 django-cors-headers
+
+# --- Database ---
 psycopg2-binary
+dj-database-url
+
+# --- Environment and Configuration ---
 python-dotenv
+
+# --- Static files (optional but helpful) ---
+whitenoise
+
+# --- Timezone/Parsing ---
 pytz
 sqlparse
 asgiref
 
-# Optional for testing/dev
+# --- AI Integration ---
+groq
+PyJWT
+typing_extensions
+
+# --- Deployment ---
+gunicorn
+
+# --- Dev/Testing (optional) ---
 coverage
 pytest
 pytest-django
 black
 flake8
-
-# ai
-groq
